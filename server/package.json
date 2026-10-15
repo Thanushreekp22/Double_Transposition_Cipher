@@ -1,0 +1,23 @@
+{
+  "name": "ins-double-transposition-server",
+  "version": "1.0.0",
+  "description": "Express API for the classical Double Transposition Cipher educational demo (INS project).",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "cryptography",
+    "double-transposition",
+    "classical-cipher",
+    "express"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0"
+  }
+}

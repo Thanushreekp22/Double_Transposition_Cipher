@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "Double Transposition Cipher API",
+    "description": "Test requests for the INS project backend: encrypt, decrypt, health and config endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/health", "host": ["{{baseUrl}}"], "path": ["api", "health"] }
+      }
+    },
+    {
+      "name": "Encrypt demo message",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"MEET ME AT 5 PM\",\n  \"key1\": \"CIPHER\",\n  \"key2\": \"NETWORK\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/encrypt", "host": ["{{baseUrl}}"], "path": ["api", "encrypt"] }
+      }
+    },
+    {
+      "name": "Decrypt with correct keys",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ciphertext\": \"T EMMX0E5  XP5XT1AE M\",\n  \"key1\": \"CIPHER\",\n  \"key2\": \"NETWORK\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/decrypt", "host": ["{{baseUrl}}"], "path": ["api", "decrypt"] }
+      }
+    },
+    {
+      "name": "Decrypt with wrong key (valid=false expected)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ciphertext\": \"T EMMX0E5  XP5XT1AE M\",\n  \"key1\": \"CIPHER\",\n  \"key2\": \"NETWORX\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/decrypt", "host": ["{{baseUrl}}"], "path": ["api", "decrypt"] }
+      }
+    },
+    {
+      "name": "Encrypt with empty message (400 expected)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"message\": \"   \",\n  \"key1\": \"A\",\n  \"key2\": \"B\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/encrypt", "host": ["{{baseUrl}}"], "path": ["api", "encrypt"] }
+      }
+    },
+    {
+      "name": "Config",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/config", "host": ["{{baseUrl}}"], "path": ["api", "config"] }
+      }
+    }
+  ]
+}

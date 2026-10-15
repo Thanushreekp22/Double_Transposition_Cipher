@@ -1,0 +1,22 @@
+{
+  "name": "ins-double-transposition",
+  "version": "1.0.0",
+  "private": true,
+  "description": "INS project: interactive demo of the classical Double Transposition Cipher (React + Express).",
+  "scripts": {
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "test": "npm test --prefix server",
+    "build": "npm run build --prefix client",
+    "start": "npm start --prefix server"
+  },
+  "keywords": [
+    "cryptography",
+    "double-transposition",
+    "classical-cipher",
+    "education",
+    "mern"
+  ],
+  "license": "MIT"
+}

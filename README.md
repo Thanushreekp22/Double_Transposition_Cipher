@@ -147,7 +147,41 @@ Import `docs/InsDoubleTransposition.postman_collection.json` and run the request
 `http://localhost:4000` (health, encrypt, decrypt with correct keys, decrypt with wrong keys,
 validation error, config).
 
-## 7. API reference
+## 7. Deployment
+
+This project can be deployed as two services: the Express API on Render and the React/Vite
+frontend on Vercel.
+
+### Deploy the API to Render
+
+1. Push the project to a GitHub repository.
+2. In Render, choose **New + → Blueprint** and select the repository.
+3. Render detects [`render.yaml`](./render.yaml), creates the `ins-double-transposition-api`
+   web service, installs dependencies from `server/package.json`, and starts it with `npm start`.
+4. After the first deploy, copy the service URL, for example:
+   `https://ins-double-transposition-api.onrender.com`.
+5. Verify the API at `/api/health`. It should return:
+   `{ "ok": true, "service": "double-transposition-api" }`.
+
+### Deploy the frontend to Vercel
+
+1. In Vercel, import the same GitHub repository.
+2. Set the Vercel **Root Directory** to `client`.
+3. Vercel detects Vite and uses [`client/vercel.json`](./client/vercel.json) to build the app.
+4. Add this Vercel environment variable for **Production**:
+
+   ```text
+   VITE_API_BASE_URL=https://ins-double-transposition-api.onrender.com
+   ```
+
+   Replace the value with the actual Render service URL and do not add a trailing slash.
+5. Deploy or redeploy the Vercel project.
+6. Open the Vercel URL and test encryption, the Visual Simulator, and decryption.
+
+For local development, `VITE_API_BASE_URL` can remain unset: Vite's existing proxy sends
+`/api` requests to `http://localhost:4000`.
+
+## 8. API reference
 
 All endpoints return JSON. Errors return `{ "ok": false, "error": "human readable message" }`
 with HTTP 400.
@@ -195,7 +229,7 @@ Response (abridged): `{ "ok": true, "valid": true, "plaintext": "MEET ME AT 5 PM
 Liveness check and documented limits (max message 999 chars, max key length 16, pad char `X`,
 3-digit header).
 
-## 8. Evaluation demo script (8 steps)
+## 9. Evaluation demo script (8 steps)
 
 Use this exact sequence when demonstrating to an evaluator (the app auto-loads this example on
 start-up):
@@ -219,7 +253,7 @@ start-up):
    produces output for wrong keys; only our educational framing checks reveal the mistake. Real
    classical users had no such signal.*
 
-## 9. Testing
+## 10. Testing
 
 `npm test` runs **28 automated tests** (Node's built-in runner, zero extra dependencies):
 
@@ -246,7 +280,7 @@ Manual test matrix performed during development (all via the UI and Postman):
 | Message with spaces & digits| Spaces preserved; round trip exact            |
 | Length not multiple of rows | Padding added and stripped correctly          |
 
-## 10. Security analysis (summary for the report)
+## 11. Security analysis (summary for the report)
 
 - **What the cipher provides:** *confidentiality by obscurity of a permutation* — an interceptor
   who lacks the keys sees only a scrambled character sequence. Historically used (in various
@@ -265,7 +299,7 @@ Manual test matrix performed during development (all via the UI and Postman):
   **authenticated modern encryption (AES-256-GCM, or RSA/ECDH + AES hybrid schemes)** and
   established libraries — never home-grown crypto.
 
-## 11. Possible extensions (not required for v1)
+## 12. Possible extensions (not required for v1)
 
 - MongoDB-backed history of encryptions/decryptions, or user accounts (Phase 5 of the plan —
   intentionally left out of v1 per the project brief).

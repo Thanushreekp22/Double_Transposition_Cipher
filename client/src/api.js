@@ -2,10 +2,12 @@
  * api.js — tiny client for the Double Transposition API + small clipboard helper.
  */
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+
 async function post(path, body) {
   let response;
   try {
-    response = await fetch(path, {
+    response = await fetch(`${API_BASE_URL}${path}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
